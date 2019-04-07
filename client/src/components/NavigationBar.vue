@@ -7,6 +7,7 @@
               <nav>
                     <router-link to="/">Home</router-link>
                     <router-link to="/posts">Posts</router-link>
+                    <router-link to="/search">Search</router-link>
                 </nav>
             </div>
         <div class="container">
@@ -22,26 +23,26 @@
             <div class="col-sm-6 home-search ">
             
                 <div id="moview_search" class="moview-search moview_search">
-                    <form id="moview-search" action="https://demo.themeum.com/wordpress/moview/">
+                    <form id="moview-search" action="/search">
                     
                         <div class="search-panel">
                             <div class="select-menu">
                                 <select name="searchtype" id="searchtype" class="selectpicker">
                                     <option value="movie"> Movies</option>
-                                    <option value="celebrity">Celebrities</option>
+                                    <option value="users">Users</option>
                                 </select>
                             </div>
                         </div>
                         
                         <div class="input-box">
                             
-                            <input type="text" id="searchword" name="s" class="moview-search-input form-control" value="" placeholder="" autocomplete="off" data-url="https://demo.themeum.com/wordpress/moview/wp-content/themes/moview/lib/search-data.php">
+                            <input v-model="searchData" type="text" id="searchword" name="query" class="moview-search-input form-control" value="" placeholder="" autocomplete="off" >
                             
                         </div>
                         
                         <span class="search-icon">
                             
-                            <img width="20" height="20" class="src-icon img-responsive" src="https://cdn1.iconfinder.com/data/icons/hawcons/32/698627-icon-111-search-512.png" alt="src" title="search"> 
+                            <img v-on:click="navToSearch()" width="20" height="20" class="src-icon img-responsive" src="https://cdn1.iconfinder.com/data/icons/hawcons/32/698627-icon-111-search-512.png" alt="src" title="search"> 
                         
                         </span>
                     
@@ -63,11 +64,13 @@
 
 <script>
 /* eslint-disable */
+import { EventBus } from '@/services/Bus.js';
 export default {
   name: 'navigationbar',
   data () {
     return {
-      navMenuWidth: '0px'
+      navMenuWidth: '0px',
+      searchData: ''
     }
   },
   mounted () {
@@ -78,7 +81,6 @@ export default {
       console.log("Test");
     },
     showNavMenu(){
-
         if(this.navMenuWidth == '0px'){
             this.navMenuWidth = '400px';
         }else{
@@ -87,6 +89,16 @@ export default {
     },
     hideNavMenu(){
         this.navMenuWidth = '0px';
+    },
+    navToSearch(){
+        console.log();
+        if(this.$route.path == '/search'){
+            console.log('here');
+            this.$router.push({ query: { query: this.searchData }});
+            EventBus.$emit('updateSearch', this.searchData);
+        }else{
+            this.$router.push({path:'search', query: { query: this.searchData }});
+        }
     }
   },
   watch: {

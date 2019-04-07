@@ -37,9 +37,7 @@ export default {
           success: function (data) {
             for(var movieData in data.results){
               this.popularMovies.push(data.results[movieData]);
-              console.log(data.results[movieData]);
             }
-              console.log(data.results[0].poster_path);
           }.bind(this),
           error: function (error) {
               console.log(error);
