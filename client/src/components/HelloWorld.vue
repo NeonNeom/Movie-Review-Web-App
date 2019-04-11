@@ -21,6 +21,17 @@
         </span>
       </div>
     </div>
+
+    <div class="MainContent">
+      <div class="mainContentTitle">
+        <img src="https://png.pngtree.com/svg/20170614/c40c30fe9c.svg" width="25px" height="25px" />
+        <h3>Recent Movie Reviews</h3>
+        <hr/>
+      </div>
+      
+
+    </div>
+
   </div>
 </template>
 
@@ -102,6 +113,37 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.MainContent{
+  max-width: 1140px;
+  margin: auto;
+  margin-top: 55px;
+}
+
+.mainContentTitle{
+  width: 100%;
+}
+.mainContentTitle *{
+  margin: 5px;
+  vertical-align: top;
+  float: left;
+}
+
+
+.mainContentTitle img{
+  margin-top: 8px;
+}
+
+.mainContentTitle hr{
+  width: 100%;
+}
+.MainContent h3{
+  font-weight: 100;
+  font-size: 25px;
+  color: rgb(71, 71, 71);
+  text-align:left;
+  display: inline-block;
+}
+
 h1, h2 {
   font-weight: normal;
 }
