@@ -1,7 +1,7 @@
 
 <template>
   <nav>
-          
+          <LexBotSearch :showElement.sync="modalIsVisible"></LexBotSearch>
           <div id="mySidenav" class="sidenav" :style="{ width: navMenuWidth}">
               <a href="javascript:void(0)" class="closebtn"  v-on:click="hideNavMenu()">&times;</a>
               <nav>
@@ -39,9 +39,14 @@
                             <input v-model="searchData" type="text" id="searchword" name="query" class="moview-search-input form-control" value="" placeholder="" autocomplete="off" >
                             
                         </div>
+
+                        <span class="lex-icon"  v-on:click="showModal()">
+                            <img width="17" height="17" class="lexBot-icon img-responsive" src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/microphone-icon.png" alt="lexBot" title="lexBot"> 
+                        </span>
                         
                         <span class="search-icon">
                             
+                        
                             <img v-on:click="navToSearch()" width="20" height="20" class="src-icon img-responsive" src="https://cdn1.iconfinder.com/data/icons/hawcons/32/698627-icon-111-search-512.png" alt="src" title="search"> 
                         
                         </span>
@@ -65,13 +70,19 @@
 <script>
 /* eslint-disable */
 import { EventBus } from '@/services/Bus.js';
+import LexBotSearch from '@/components/LexBot.vue';
+
 export default {
   name: 'navigationbar',
   data () {
     return {
       navMenuWidth: '0px',
-      searchData: ''
+      searchData: '',
+      modalIsVisible : true
     }
+  },
+  components:{
+      LexBotSearch
   },
   mounted () {
     this.getPosts()
@@ -98,6 +109,13 @@ export default {
             EventBus.$emit('updateSearch', this.searchData);
         }else{
             this.$router.push({path:'search', query: { query: this.searchData }});
+        }
+    },
+    showModal(){
+        if(this.modalIsVisible){
+            this.modalIsVisible = false;
+        }else{
+            this.modalIsVisible = true;
         }
     }
   },
@@ -126,6 +144,16 @@ export default {
 nav{
     box-sizing: border-box;
     min-height: 70px;
+}
+
+.lex-icon{
+    position: absolute;
+    margin-top:11px; 
+    right: 45px;
+}
+
+.lex-icon:hover{
+    cursor: pointer;
 }
 
 .sidenav {

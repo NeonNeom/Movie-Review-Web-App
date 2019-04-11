@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Posts from '@/components/Posts'
 import HelloWorld from '@/components/HelloWorld'
 import SearchMovies from '@/components/SearchMovies'
+import LexBot from '@/components/LexBot'
 
 Vue.use(Router)
 
@@ -23,6 +24,11 @@ export default new Router({
       path: '/search',
       name: 'Search',
       component: SearchMovies
+    },
+    {
+      path: '/lex',
+      name: 'lex',
+      component: LexBot
     }
   ]
 })
