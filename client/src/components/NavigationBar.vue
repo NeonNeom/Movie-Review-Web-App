@@ -160,7 +160,7 @@ nav{
   height: 100%;
   width: 0;
   position: fixed;
-  z-index: 50;
+  z-index: 100;
   top: 0;
   left: 0;
   background-color: #111;

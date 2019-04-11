@@ -1,10 +1,23 @@
 
 <template>
   <div>
-    <div class="window">
+    
+    <div class="window" ref="scrollContent" v-on:mousedown="startDrag($event)" v-on:mousemove="doDrag($event)">
       <div class="carousel">
         <span class="slide " v-for="(popularMovie, index) in popularMovies" :key="`popMovie-${index}`">
-          <img :src="'https://image.tmdb.org/t/p/w300' + popularMovie.poster_path" width="300px"/>
+          <div class="img-holder">
+            <img :src="'https://image.tmdb.org/t/p/w300' + popularMovie.poster_path" width="300px"/>
+      
+            <div class="popMovieInfo">
+              <div class="movie-rating">
+                <img src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/star-icon.png" width="15px" height="15px"/>
+                {{ popularMovie.vote_average }}</div>
+              <p class="movie-title"><b>{{ popularMovie.title }}</b></p>
+              <span>{{ popularMovie.release_date }}</span>  
+            </div> 
+          
+          </div>
+          
         </span>
       </div>
     </div>
@@ -14,7 +27,7 @@
 <script>
 //<div style="background-color:firebrick;height: 500px;"></div>
 
-import $ from 'jquery'
+import $a from 'jquery'
 import apiKey from '@/services/ApiKey.js'
 
 export default {
@@ -22,15 +35,20 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      popularMovies: []
+      popularMovies: [],
+      dragging: false,
+      x: 'no',
+      scrollChange: 0,
+      scrollHeight: 0
     }
   },
   mounted () {
-    this.getPopularMovies()
+    this.getPopularMovies();
+    window.addEventListener('mouseup', this.stopDrag);
   },
   methods: {
     getPopularMovies () {
-      $.ajax({
+      $a.ajax({
           url: 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1&release_date=2019&api_key=' + apiKey,
           method: 'GET',
           async: true,
@@ -43,6 +61,40 @@ export default {
               console.log(error);
           }
       });
+    },
+    startDrag(event){
+      this.dragging = true;
+      this.x = 'no';
+      this.scrollChange = event.clientX;
+      this.scrollHeight = this.$refs.scrollContent.scrollLeft;
+    },
+    stopDrag() {
+      if(this.dragging == true && this.$refs.scrollContent.scrollLeft % 300 != 0){
+        if(this.x < 0){
+          var newScrollPos = (Math.floor(this.$refs.scrollContent.scrollLeft/300)) * 300;
+          $('.window').animate({
+            scrollLeft: newScrollPos
+          },450, "easeOutQuint");
+          //this.$refs.scrollContent.scrollLeft = newScrollPos;
+        }else{
+          var newScrollPos = (Math.ceil(this.$refs.scrollContent.scrollLeft/300)) * 300;
+          $('.window').animate({
+            scrollLeft: newScrollPos
+          }, 450, "easeOutQuint");
+          //this.$refs.scrollContent.scrollLeft = newScrollPos;
+        }
+        
+       // console.log(this.$refs.scrollContent.scrollLeft/300);
+      }
+      this.dragging = false;
+      this.x = 'no';
+    },
+    doDrag(event) {
+      if (this.dragging) {
+        this.x = this.scrollChange - event.clientX ;
+        this.$refs.scrollContent.scrollLeft = this.scrollHeight + this.x;
+        //console.log(this.x);
+      }
     }
   }
 }
@@ -65,40 +117,97 @@ a {
   color: #42b983;
 }
 .window {
-  overflow: auto;
+  overflow-y:hidden;
+  overflow-x: hidden;
   position: relative;
-  background: #222;
-
 }
+.movie-rating img{
+  margin-top: -4px;
+}
+.popMovieInfo{
+  color: white;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 150px;
+  padding-top: 15px;
+  z-index: 101;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 1) 100%);
+}
+
+.movie-title{
+  font-size: 20px;
+  margin-bottom: 8px;
+  padding: 0px 5px;
+  -webkit-transition: 0.4s ease;
+  transition: 0.4s ease;
+}
+
+.img-holder:hover  .movie-title{
+  font-size: 23px;
+}
+
 .carousel {
   width:max-content;
   position: relative;
   top: 0; left: 0px;
+  
 }
 .slide {
-  background-color: rgb(0, 0, 0);
   height: 450px;
   width: 300px;
-  cursor: pointer;
+  cursor: url(../assets/cursor.png),auto;
   float: left;
   display: flex;
+  background-color: black;
   flex-direction: column;
   justify-content: center;
 }
 
-.slide:before {
-    content: 'lolol';
-    position: absolute;
-    display: inline-block;
-    bottom: 0;
-    color: white;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 50;
-    -webkit-background-image: linear-gradient(to bottom,rgba(0,0,0,0) 50%,#000 100%);
-    background-image: linear-gradient(to bottom,rgba(0,0,0,0) 50%,#000 100%);
-    transition: all .3s;
-    -webkit-transition: all .3s;
+
+.img-holder{
+  max-width: 300px;
+  overflow: hidden;
+  z-index: 50;
+  position: sticky;
+  margin: auto;
+   -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
+
+.img-holder::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 30;
+  opacity: 0;
+  display: block;
+  -webkit-transition: 0.4s ease;
+  transition: 0.4s ease;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3) 40%, rgba(0, 0, 0, 1) 100%);
+}
+
+.slide img{
+  -webkit-transition: 0.4s ease;
+  transition: 0.4s ease;
+}
+
+.img-holder:hover::before{
+  opacity: 1;
+}
+
+.img-holder:hover > img{
+  -webkit-transform: scale(1.18);
+  transform: scale(1.18);
+}
+
+
+
 </style>

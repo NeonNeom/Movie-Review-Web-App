@@ -1,12 +1,23 @@
 <template>
   <div class="movieSearch">
-    <h1>Movies</h1>
     <hr>
-    <div v-for="(movie, index) in movieSearch" :key="index">
-      <p>
-        <span><b>{{ movie.title }}</b></span><br />
-        <span>{{ movie.description }}</span>
-      </p>
+    <div class="col-xs-3  movieSearchItem" v-for="(movie, index) in movieSearch" :key="index">
+      
+      <span v-if="movie.poster_path != null">
+        <div class="img-holder">
+          <img :src="'https://image.tmdb.org/t/p/w300' + movie.poster_path" width="300px"/>
+          <div class="popMovieInfo">
+              <div class="movie-rating">
+                <img src="http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/star-icon.png" width="15px" height="15px"/>
+                {{ movie.vote_average }}</div>
+              <p class="movie-title"><b>{{ movie.title }}</b></p>
+              <span>{{ movie.release_date }}</span>  
+          </div>         
+        
+        </div>
+      </span>
+
+      
     </div>
   </div>
 </template>
@@ -62,6 +73,8 @@ export default {
 
 <style scoped>
 .movieSearch{
+  max-width: 1570px;
+  margin: auto;
   margin-top: 30px;
 }
 hr{
@@ -69,5 +82,88 @@ hr{
     margin: auto;
     margin-top: 20px;
     margin-bottom: 30px;
+}
+
+
+
+.movieSearchItem{
+  min-height: 500px;
+  vertical-align: top;
+  display: inline-block;
+  margin: 15px;
+  position:sticky;
+}
+
+.img-holder{
+  max-width: 300px;
+  overflow: hidden;
+  z-index: 50;
+  position: sticky;
+  margin: auto;
+  height: 450px;
+}
+
+.img-holder::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 30;
+  opacity: 0;
+  display: block;
+  -webkit-transition: 0.4s ease;
+  transition: 0.4s ease;
+    background-image: linear-gradient(rgba(32, 51, 226, 0.1) 40%, rgba(0, 0, 0, .8) 100%);
+}
+
+.movieSearchItem img{
+  -webkit-transition: 0.4s ease;
+  transition: 0.4s ease;
+}
+
+.img-holder:hover::before{
+  opacity: 1;
+}
+
+.img-holder:hover img{
+  -webkit-transform: scale(1.18);
+  transform: scale(1.18);
+}
+
+.img-holder{
+    box-sizing: border-box;
+    width: auto; 
+}
+
+.movieSearchItem p{
+  box-sizing: border-box;
+  margin: auto;
+  width: 70%;
+  text-align: center;
+}
+
+
+.popMovieInfo{
+  color: white;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 150px;
+  padding-top: 15px;
+  z-index: 101;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 1) 100%);
+}
+
+.movie-title{
+  font-size: 20px;
+  margin-bottom: 8px;
+  padding: 0px 5px;
+  -webkit-transition: 0.4s ease;
+  transition: 0.4s ease;
+}
+
+.img-holder:hover  .movie-title{
+  font-size: 23px;
 }
 </style>
