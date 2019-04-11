@@ -46,7 +46,7 @@
                         
                         <span class="search-icon">
                             
-                        
+                    
                             <img v-on:click="navToSearch()" width="20" height="20" class="src-icon img-responsive" src="https://cdn1.iconfinder.com/data/icons/hawcons/32/698627-icon-111-search-512.png" alt="src" title="search"> 
                         
                         </span>
@@ -56,10 +56,11 @@
             
             </div>
             
-            <div class="col-sm-2 signin">
-                <div class="profile-icon"></div>
-            
-                <p>Login</p>
+            <div class="col-sm-1 ">
+                <div id="profile-holder">
+                    <div class="profile-icon"></div>
+                <p class="signin">Login</p>
+                </div>
             </div>
         </div>
       
@@ -139,7 +140,7 @@ export default {
 .container > *, #menu-icon{
     vertical-align: top;
     height: 70px;
-    display: inline-block
+    display: inline-block;
 }
 nav{
     box-sizing: border-box;
@@ -304,44 +305,33 @@ nav{
     cursor: pointer;
 }
 
-.signin p{
-    width: 90px;
-    height: 60px;
-    padding: 20px;
-    float: right;
-    box-sizing: border-box;
-}
-
 .profile-icon{
     background: url('../assets/profile-icon.png');
-    
-     background-size: cover; 
-     background-position: center;
+    background-size: cover; 
+    background-position: center;
     width: 22px;
     height: 22px;
-    display: inline-block;
-    position: absolute;
-    right: 88px;
-    top: 20.5px;
 }
 
-.signin img{
-    width: 25px;
-    height: 25px;
-    position: absolute;
-    left: 5px;
-    top: 18px;
-    color: firebrick;
-}
-
-.signin *:hover{
+.signin:hover, .profile-icon:hover{
     cursor: pointer;
 }
 
 .logo-container{
     min-width: 220px; 
-    margin-right: 15px;
+   
 }
 
+#profile-holder{
+    padding-top: 25px;
+    width: 100px;
+    margin: auto;
+}
+
+#profile-holder *{
+    vertical-align: top;
+    display: inline-block;
+    width: 22px;
+}
 
 </style>
