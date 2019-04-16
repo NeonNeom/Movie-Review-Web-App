@@ -145,6 +145,7 @@ export default {
 nav{
     box-sizing: border-box;
     min-height: 70px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
 }
 
 .lex-icon{

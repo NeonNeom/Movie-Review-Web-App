@@ -1,7 +1,7 @@
 <template>
   <div class="movieSearch">
-    <hr>
-    <div class="col-xs-3  movieSearchItem" v-for="(movie, index) in movieSearch" :key="index">
+  
+    <div class="col-xs-3  movieSearchItem" v-for="(movie, index) in movieSearch" :key="index" v-on:click="goToMovieDetails(movie)">
       
       <span v-if="movie.poster_path != null">
         <div class="img-holder">
@@ -66,6 +66,10 @@ export default {
               console.log(error);
           }
       });
+    },
+    goToMovieDetails(data){
+      this.$router.push({path:'movie-details', query: { id: data.id }});
+      //console.log(data);
     }
   }
 }

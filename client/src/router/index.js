@@ -4,6 +4,7 @@ import Posts from '@/components/Posts'
 import HelloWorld from '@/components/HelloWorld'
 import SearchMovies from '@/components/SearchMovies'
 import LexBot from '@/components/LexBot'
+import MovieDetails from '@/components/MovieDetails'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/lex',
       name: 'lex',
       component: LexBot
+    },
+    {
+      path: '/movie-details',
+      name: 'movie-details',
+      component: MovieDetails
     }
   ]
 })

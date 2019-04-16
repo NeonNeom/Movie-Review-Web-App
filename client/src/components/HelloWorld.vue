@@ -1,6 +1,6 @@
 
 <template>
-  <div>
+  <div v-if="isLoaded">
     
     <div class="window" ref="scrollContent" v-on:mousedown="startDrag($event)" v-on:mousemove="doDrag($event)">
       <div class="carousel">
@@ -22,9 +22,9 @@
       </div>
     </div>
 
-    <div class="MainContent">
+    <div class=" col-sm-9 MainContent">
       <div class="mainContentTitle">
-        <img src="https://png.pngtree.com/svg/20170614/c40c30fe9c.svg" width="25px" height="25px" />
+        <img src="https://png.pngtree.com/svg/20170614/c40c30fe9c.svg" width="22px" height="22px" />
         <h3>Recent Movie Reviews</h3>
         <hr/>
       </div>
@@ -46,6 +46,7 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
+      isLoaded: false,
       popularMovies: [],
       dragging: false,
       x: 'no',
@@ -67,6 +68,7 @@ export default {
             for(var movieData in data.results){
               this.popularMovies.push(data.results[movieData]);
             }
+            this.isLoaded = true;
           }.bind(this),
           error: function (error) {
               console.log(error);
@@ -114,9 +116,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .MainContent{
-  max-width: 1140px;
-  margin: auto;
-  margin-top: 55px;
+ margin: auto;
+ margin-top: 45px;
 }
 
 .mainContentTitle{
@@ -162,7 +163,10 @@ a {
   overflow-y:hidden;
   overflow-x: hidden;
   position: relative;
+  background-color: black;
+
 }
+
 .movie-rating img{
   margin-top: -4px;
 }
@@ -192,12 +196,15 @@ a {
 .carousel {
   width:max-content;
   position: relative;
+  height: auto;
+  background-color: black;
   top: 0; left: 0px;
   
 }
 .slide {
-  height: 450px;
-  width: 300px;
+  height: max-content;
+  vertical-align: bottom;
+  width: calc(100vw/5);
   cursor: url(../assets/cursor.png),auto;
   float: left;
   display: flex;
@@ -208,7 +215,7 @@ a {
 
 
 .img-holder{
-  max-width: 300px;
+  max-width: calc(100vw/5);
   overflow: hidden;
   z-index: 50;
   position: sticky;
@@ -250,6 +257,8 @@ a {
   transform: scale(1.18);
 }
 
-
+.img-holder > img{
+  width: calc(100vw/5);
+}
 
 </style>
