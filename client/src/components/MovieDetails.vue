@@ -154,18 +154,18 @@ b{
 }
 
 .my-rating{
-    height: 90px;
-    width: 90px;
+    height: 50px;
+    width: 50px;
     border-radius: 300px;
     background-color:rgb(255, 170, 130);
     background-image: url('http://cdn.onlinewebfonts.com/svg/img_521508.png');
     background-repeat:no-repeat;
     background-size:cover;
-    background-size: 50px;
+    background-size: 30px;
     background-position: 50% 50%;
     position: absolute;
-    top: 110px;
-    right: 20px;
+    top: 120px;
+    right: 30px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 

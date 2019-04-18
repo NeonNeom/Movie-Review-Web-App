@@ -1,12 +1,11 @@
 
 <template>
   <div v-if="isLoaded">
-    
     <div class="window" ref="scrollContent" v-on:mousedown="startDrag($event)" v-on:mousemove="doDrag($event)">
       <div class="carousel">
-        <span class="slide " v-for="(popularMovie, index) in popularMovies" :key="`popMovie-${index}`">
-          <div class="img-holder">
-            <img :src="'https://image.tmdb.org/t/p/w300' + popularMovie.poster_path" width="300px"/>
+        <span class="slide " :style="'width: calc(100vw/'+ slideWidth +')'" v-for="(popularMovie, index) in popularMovies" :key="`popMovie-${index}`">
+          <div class="img-holder" :style="'max-width: calc(100vw/'+ slideWidth +')'">
+            <img :src="'https://image.tmdb.org/t/p/w300' + popularMovie.poster_path" width="300px" :style="'max-width: calc(100vw/'+ slideWidth +')'"/>
       
             <div class="popMovieInfo">
               <div class="movie-rating">
@@ -51,12 +50,16 @@ export default {
       dragging: false,
       x: 'no',
       scrollChange: 0,
-      scrollHeight: 0
+      scrollHeight: 0,
+      viewSize: 0,
+      slideWidth: 4
     }
   },
   mounted () {
+    this.viewportSize();
     this.getPopularMovies();
     window.addEventListener('mouseup', this.stopDrag);
+    window.addEventListener('resize', this.viewportSize);
   },
   methods: {
     getPopularMovies () {
@@ -82,15 +85,17 @@ export default {
       this.scrollHeight = this.$refs.scrollContent.scrollLeft;
     },
     stopDrag() {
-      if(this.dragging == true && this.$refs.scrollContent.scrollLeft % 300 != 0){
+      var slideWidth = $(window).width()/this.slideWidth;
+      if(this.dragging == true && this.$refs.scrollContent.scrollLeft % slideWidth != 0){
+        var scrollDist = this.$refs.scrollContent.scrollLeft/slideWidth;
         if(this.x < 0){
-          var newScrollPos = (Math.floor(this.$refs.scrollContent.scrollLeft/300)) * 300;
+          var newScrollPos = (Math.floor(scrollDist)) * slideWidth;
           $('.window').animate({
             scrollLeft: newScrollPos
           },450, "easeOutQuint");
           //this.$refs.scrollContent.scrollLeft = newScrollPos;
         }else{
-          var newScrollPos = (Math.ceil(this.$refs.scrollContent.scrollLeft/300)) * 300;
+          var newScrollPos = (Math.ceil(scrollDist)) * slideWidth;
           $('.window').animate({
             scrollLeft: newScrollPos
           }, 450, "easeOutQuint");
@@ -108,6 +113,25 @@ export default {
         this.$refs.scrollContent.scrollLeft = this.scrollHeight + this.x;
         //console.log(this.x);
       }
+    },
+    viewportSize(){
+      this.viewSize = $(window).width();
+      if($(window).width() > 1800){
+        this.slideWidth = 7;
+      }else if($(window).width() > 1500){
+        this.slideWidth = 6;
+      }else if($(window).width() > 1200){
+        this.slideWidth = 5;
+      }else if($(window).width() > 900){
+        this.slideWidth = 4;
+      }else if($(window).width() > 600){
+        this.slideWidth = 3;
+      }else if($(window).width() > 300){
+        this.slideWidth = 2;
+      }else if($(window).width() > 0){
+        this.slideWidth = 1;
+      }
+      
     }
   }
 }
@@ -204,7 +228,7 @@ a {
 .slide {
   height: max-content;
   vertical-align: bottom;
-  width: calc(100vw/5);
+  
   cursor: url(../assets/cursor.png),auto;
   float: left;
   display: flex;
@@ -215,7 +239,6 @@ a {
 
 
 .img-holder{
-  max-width: calc(100vw/5);
   overflow: hidden;
   z-index: 50;
   position: sticky;
@@ -257,8 +280,6 @@ a {
   transform: scale(1.18);
 }
 
-.img-holder > img{
-  width: calc(100vw/5);
-}
+
 
 </style>
