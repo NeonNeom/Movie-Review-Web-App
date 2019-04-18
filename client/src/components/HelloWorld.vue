@@ -5,7 +5,7 @@
       <div class="carousel">
         <span class="slide " :style="'width: calc(100vw/'+ slideWidth +')'" v-for="(popularMovie, index) in popularMovies" :key="`popMovie-${index}`">
           <div class="img-holder" :style="'max-width: calc(100vw/'+ slideWidth +')'">
-            <img :src="'https://image.tmdb.org/t/p/w300' + popularMovie.poster_path" width="300px" :style="'max-width: calc(100vw/'+ slideWidth +')'"/>
+            <img :src="'https://image.tmdb.org/t/p/original' + popularMovie.poster_path" :style="'max-width: calc(100vw/'+ slideWidth +')'"/>
       
             <div class="popMovieInfo">
               <div class="movie-rating">
@@ -23,8 +23,8 @@
 
     <div class=" col-sm-9 MainContent">
       <div class="mainContentTitle">
-        <img src="https://png.pngtree.com/svg/20170614/c40c30fe9c.svg" width="22px" height="22px" />
-        <h3>Recent Movie Reviews</h3>
+        <img src="../assets/theaterIcon.png" width="22px" height="22px" />
+        <h3>Recommended Movies</h3>
         <hr/>
       </div>
       
@@ -116,22 +116,16 @@ export default {
     },
     viewportSize(){
       this.viewSize = $(window).width();
-      if($(window).width() > 1800){
-        this.slideWidth = 7;
-      }else if($(window).width() > 1500){
-        this.slideWidth = 6;
-      }else if($(window).width() > 1200){
+      if($(window).width() > 1500){
         this.slideWidth = 5;
-      }else if($(window).width() > 900){
+      }else if($(window).width() > 1200){
         this.slideWidth = 4;
-      }else if($(window).width() > 600){
+      }else if($(window).width() > 700){
         this.slideWidth = 3;
-      }else if($(window).width() > 300){
-        this.slideWidth = 2;
       }else if($(window).width() > 0){
-        this.slideWidth = 1;
+        this.slideWidth = 2;
       }
-      
+      console.log($(window).width());
     }
   }
 }
@@ -141,7 +135,7 @@ export default {
 <style scoped>
 .MainContent{
  margin: auto;
- margin-top: 45px;
+ margin-top: 55px;
 }
 
 .mainContentTitle{
@@ -156,16 +150,20 @@ export default {
 
 .mainContentTitle img{
   margin-top: 8px;
+  width: 27px;
 }
 
 .mainContentTitle hr{
   width: 100%;
+  margin-top: 15px;
 }
 .MainContent h3{
-  font-weight: 100;
-  font-size: 25px;
-  color: rgb(71, 71, 71);
+  font-family: 'Archivo', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  color: rgb(0, 0, 0);
   text-align:left;
+  margin-top: 7px;
   display: inline-block;
 }
 

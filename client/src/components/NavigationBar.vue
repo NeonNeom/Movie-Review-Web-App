@@ -2,7 +2,7 @@
 <template>
   <nav>
           <LexBotSearch :showElement.sync="modalIsVisible"></LexBotSearch>
-          <div id="mySidenav" class="sidenav" :style="{ width: navMenuWidth}">
+          <div id="mySidenav" class="sidenav">
               <a href="javascript:void(0)" class="closebtn"  v-on:click="hideNavMenu()">&times;</a>
               <nav>
                     <router-link to="/">Home</router-link>
@@ -18,8 +18,8 @@
                     <div id="line3" class="menu-line"></div>
                 </div>
 
-                <img class="enter-logo img-responsive" src="http://demo.themeum.com/wordpress/moview/wp-content/themes/moview/images/logo.png" alt="Logo" title="Logo">  
-            </div>
+                <div class="enter-logo img-responsive" alt="Logo" title="Logo"></div> 
+            </div>   
             <div class="col-sm-6 home-search ">
             
                 <div id="moview_search" class="moview-search moview_search">
@@ -72,7 +72,6 @@
 /* eslint-disable */
 import { EventBus } from '@/services/Bus.js';
 import LexBotSearch from '@/components/LexBot.vue';
-
 export default {
   name: 'navigationbar',
   data () {
@@ -95,12 +94,18 @@ export default {
     showNavMenu(){
         if(this.navMenuWidth == '0px'){
             this.navMenuWidth = '400px';
+            $('#mySidenav').animate({
+            width: '400px'
+          },400, "easeOutQuart");
         }else{
-            this.navMenuWidth = '0px'
+            this.hideNavMenu();
         }
     },
     hideNavMenu(){
         this.navMenuWidth = '0px';
+        $('#mySidenav').animate({
+            width: '0px'
+          },400, "easeOutQuart");
     },
     navToSearch(){
         console.log();
@@ -167,7 +172,6 @@ nav{
   left: 0;
   background-color: #111;
   overflow-x: hidden;
-  transition: 0.5s;
   padding-top: 60px;
 }
 
@@ -193,7 +197,8 @@ nav{
 }
 
 #menu-icon{
-    margin: 24px 18px;
+    margin: 24px 0px;
+    margin-right: 15px;
     padding: 2px;
     height: 23px;
 }
@@ -210,7 +215,14 @@ nav{
 
 .enter-logo{
     padding: 22px 0px;
-    height: 67px;
+    height: 70px;
+    width: 130px;
+    display: inline-block;
+    background-image: url('../assets/reVuer.png');
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-size: 130px;
+    background-position: 50% 50%;
 }
 
 .home-search {

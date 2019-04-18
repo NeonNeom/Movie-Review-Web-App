@@ -157,8 +157,8 @@ b{
     height: 50px;
     width: 50px;
     border-radius: 300px;
-    background-color:rgb(255, 170, 130);
-    background-image: url('http://cdn.onlinewebfonts.com/svg/img_521508.png');
+    background-color:#c75c5c;
+    background-image: url('../assets/recommendIcon.png');
     background-repeat:no-repeat;
     background-size:cover;
     background-size: 30px;
