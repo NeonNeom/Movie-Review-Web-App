@@ -1,5 +1,6 @@
 <template>
   <div v-if="isLoaded" class="movie-details">
+    <Recommend :movieId="this.$route.query.id" :showElement.sync="modalIsVisible"></Recommend>
     <div v-if="movie.backdrop_path != null" class="backdrop" :style="'background-image:url(https://image.tmdb.org/t/p/original/' + movie.backdrop_path + ');background-repeat:no-repeat;background-size: cover;background-position: 50% 50%;'">
 
         <div class="movie-rating col-sm-10">
@@ -26,7 +27,7 @@
                     </span>
                     {{movie.vote_average}}
                 </p>
-                <div class="my-rating">
+                <div class="my-rating" v-on:click="showModal()">
 
                 </div>
             </div>
@@ -68,14 +69,19 @@
 
 import $ from 'jquery'
 import apiKey from '@/services/ApiKey.js'
+import Recommend from '@/components/Recommend.vue';
 
 export default {
   name: 'moviedetails',
   data () {
     return {
       movie: {},
-      isLoaded: false
+      isLoaded: false,
+      modalIsVisible : true
     }
+  },
+  components:{
+      Recommend
   },
   mounted () {
     this.getMovieDetails();
@@ -95,6 +101,13 @@ export default {
               console.log(error);
           }
         });
+    },
+    showModal(){
+        if(this.modalIsVisible){
+            this.modalIsVisible = false;
+        }else{
+            this.modalIsVisible = true;
+        }
     }
   }
 }
@@ -110,7 +123,7 @@ b{
 }
 
 .backdrop{
-    width: 100vw;
+    width: 100%;
     padding-top: 250px;
     height: 500px;
     position: sticky;
@@ -171,6 +184,7 @@ b{
 
 .my-rating:hover{
     cursor: pointer;
+    background-color:#f02727;
 }
 
 .movie-content{

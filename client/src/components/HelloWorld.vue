@@ -21,11 +21,18 @@
       </div>
     </div>
 
-    <div class=" col-sm-9 MainContent">
-      <div class="mainContentTitle">
+    <div class=" col-sm-9 content-holder">
+      <div class="main-content">
         <img src="../assets/theaterIcon.png" width="22px" height="22px" />
-        <h3>Recommended Movies</h3>
+        <h3>My Recommended Movies</h3>
         <hr/>
+        <div class="recommended-movies-list">
+          <div class="recommended-movie"  v-for="(movie, index) in movies.slice(0,3)" :key="index">
+            <img class="rec-movie-img" :src="'https://image.tmdb.org/t/p/w300' + movie.poster_path" width="300px"/>
+            <h5>{{movie.title}}</h5>
+            <p>{{movie.release_date}}</p>
+          </div>
+        </div>
       </div>
       
 
@@ -39,6 +46,15 @@
 
 import $a from 'jquery'
 import apiKey from '@/services/ApiKey.js'
+import moviesList from '@/services/RecMoviesList.js';
+
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
 
 export default {
   name: 'HelloWorld',
@@ -52,7 +68,8 @@ export default {
       scrollChange: 0,
       scrollHeight: 0,
       viewSize: 0,
-      slideWidth: 4
+      slideWidth: 4,
+      movies:[]
     }
   },
   mounted () {
@@ -77,6 +94,20 @@ export default {
               console.log(error);
           }
       });
+
+      for(let item in moviesList){         
+                $.ajax({
+                url: 'https://api.themoviedb.org/3/movie/' + item + '?language=en-US&page=1&api_key=' + apiKey,
+                method: 'GET',
+                async: true,
+                success: function (data) {
+                    this.movies.push(data);
+                }.bind(this),
+                error: function (error) {
+                    console.log(error);
+                }
+                });
+            }
     },
     startDrag(event){
       this.dragging = true;
@@ -85,7 +116,7 @@ export default {
       this.scrollHeight = this.$refs.scrollContent.scrollLeft;
     },
     stopDrag() {
-      var slideWidth = $(window).width()/this.slideWidth;
+      var slideWidth = ($(window).outerWidth()/this.slideWidth);
       if(this.dragging == true && this.$refs.scrollContent.scrollLeft % slideWidth != 0){
         var scrollDist = this.$refs.scrollContent.scrollLeft/slideWidth;
         if(this.x < 0){
@@ -125,7 +156,7 @@ export default {
       }else if($(window).width() > 0){
         this.slideWidth = 2;
       }
-      console.log($(window).width());
+      
     }
   }
 }
@@ -133,31 +164,33 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.MainContent{
- margin: auto;
- margin-top: 55px;
+.content-holder{
+    margin: auto;
+    padding-top: 55px;
+    min-height: 70vh;
 }
 
-.mainContentTitle{
+.main-content{
   width: 100%;
+  position: sticky;
 }
-.mainContentTitle *{
+.main-content *{
   margin: 5px;
   vertical-align: top;
-  float: left;
+  
 }
 
 
-.mainContentTitle img{
+.main-content > img{
   margin-top: 8px;
   width: 27px;
 }
 
-.mainContentTitle hr{
+.main-content hr{
   width: 100%;
   margin-top: 15px;
 }
-.MainContent h3{
+.content-holder h3{
   font-family: 'Archivo', sans-serif;
   font-weight: 500;
   font-size: 20px;
@@ -278,6 +311,30 @@ a {
   transform: scale(1.18);
 }
 
+.recommended-movies-list{
+  width: 100%;
+  margin-top: 35px;
+}
 
+.recommended-movie{
+  display: inline-block;
+  height: auto;
+  width: 25%;
+  min-width: 200px;
+  margin-bottom: 25px;
+}
 
+.recommended-movie *{
+  display: block;
+  width: 100%;
+}
+
+.rec-movie-img{
+  height: auto;
+  width: 90%;
+  min-width: 200px;
+  margin-left: 10%;
+  margin-bottom: 25px;
+  background-color: blueviolet;
+}
 </style>

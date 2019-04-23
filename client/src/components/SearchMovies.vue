@@ -88,7 +88,9 @@ hr{
     margin-bottom: 30px;
 }
 
-
+.img-holder:hover{
+  cursor: pointer;
+}
 
 .movieSearchItem{
   min-height: 500px;

@@ -18,6 +18,10 @@ export default {
 </script>
 
 <style>
+body{
+  max-width: 100vw;
+}
+
 #app {
   /* 
   font-family: 'Archivo', sans-serif;

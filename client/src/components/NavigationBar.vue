@@ -6,11 +6,11 @@
               <a href="javascript:void(0)" class="closebtn"  v-on:click="hideNavMenu()">&times;</a>
               <nav>
                     <router-link to="/">Home</router-link>
-                    <router-link to="/posts">Posts</router-link>
+                    <router-link to="/profile">Profile</router-link>
                     <router-link to="/search">Search</router-link>
                 </nav>
             </div>
-        <div class="container">
+        <div class="row">
             <div class="col-sm-3 logo-container">
                 <div id="menu-icon" v-on:click="showNavMenu()">
                     <div id="line1" class="menu-line"></div>
@@ -18,9 +18,9 @@
                     <div id="line3" class="menu-line"></div>
                 </div>
 
-                <div class="enter-logo img-responsive" alt="Logo" title="Logo"></div> 
+                <div class="enter-logo img-responsive" v-on:click="goToHome()" alt="Logo" title="Logo"></div> 
             </div>   
-            <div class="col-sm-6 home-search ">
+            <div class="col-sm-7 home-search ">
             
                 <div id="moview_search" class="moview-search moview_search">
                     <form id="moview-search" action="/search">
@@ -59,7 +59,7 @@
             <div class="col-sm-1 ">
                 <div id="profile-holder">
                     <div class="profile-icon"></div>
-                <p class="signin">Login</p>
+                <p class="signin" v-on:click="goToProfile()">Profile</p>
                 </div>
             </div>
         </div>
@@ -117,6 +117,12 @@ export default {
             this.$router.push({path:'search', query: { query: this.searchData }});
         }
     },
+    goToHome(){
+        this.$router.push({path:'/'});
+    },
+    goToProfile(){
+        this.$router.push({path:'/profile'});
+    },
     showModal(){
         if(this.modalIsVisible){
             this.modalIsVisible = false;
@@ -150,9 +156,12 @@ export default {
 nav{
     box-sizing: border-box;
     min-height: 70px;
+    max-width: 100%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
 }
-
+.row{
+    margin-right: 0px !important; 
+}
 .lex-icon{
     position: absolute;
     margin-top:11px; 
@@ -223,12 +232,17 @@ nav{
     background-size:cover;
     background-size: 130px;
     background-position: 50% 50%;
+    margin-left: 15px;
+}
+
+.enter-logo:hover{
+    cursor: pointer;
 }
 
 .home-search {
     margin: 0px;
     height: 70px;
-    
+    min-width: 300px;
 }
 
 #moview_search{

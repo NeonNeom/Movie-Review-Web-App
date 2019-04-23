@@ -5,6 +5,7 @@ import HelloWorld from '@/components/HelloWorld'
 import SearchMovies from '@/components/SearchMovies'
 import LexBot from '@/components/LexBot'
 import MovieDetails from '@/components/MovieDetails'
+import Profile from '@/components/Profile'
 
 Vue.use(Router)
 
@@ -35,6 +36,11 @@ export default new Router({
       path: '/movie-details',
       name: 'movie-details',
       component: MovieDetails
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: Profile
     }
   ]
 })
